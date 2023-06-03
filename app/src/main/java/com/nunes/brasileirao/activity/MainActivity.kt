@@ -15,6 +15,7 @@ import com.nunes.brasileirao.model_tabela.DadosApiItem
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
+    //View Binding e Retrofit
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         RetrofitServices.retrofit
     }
 
-    lateinit var jobTeabela: Job
+    lateinit var jobTabela: Job
     lateinit var jobRodada: Job
     var numeroDaRodadaAtual = 0
     var tabela:MutableList<DadosApiItem>? = null
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        jobTeabela = CoroutineScope(Dispatchers.IO).launch {
+        jobTabela = CoroutineScope(Dispatchers.IO).launch {
 
          tabela = buscarTabela()
 
@@ -57,10 +58,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnRodadas.setOnClickListener {
 
-            binding.clBotoesRodadas.visibility = View.VISIBLE
-
-            binding.linearLayoutTopo.visibility = View.GONE
-
             jobRodada = CoroutineScope(Dispatchers.IO).launch {
 
             if (rodadaRecuperada) {
@@ -70,6 +67,8 @@ class MainActivity : AppCompatActivity() {
                     reexibirRodada(rodadaAtualRecuperada!!)
 
                     MainScope().launch {
+                        binding.linearLayoutTopo.visibility = View.GONE
+                        binding.clBotoesRodadas.visibility = View.VISIBLE
                         binding.btnRodada.text = "Rodada: " + rodadaAtualRecuperada?.rodada
                     }
                 }
@@ -84,6 +83,8 @@ class MainActivity : AppCompatActivity() {
                    rodadaAtualRecuperada = buscarRodada(numeroDaRodadaAtual)
 
                     MainScope().launch {
+                        binding.linearLayoutTopo.visibility = View.GONE
+                        binding.clBotoesRodadas.visibility = View.VISIBLE
                         binding.btnRodada.text = "Rodada: " + rodadaAtualRecuperada?.rodada
                     }
 
@@ -117,6 +118,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.imageButtonProxima.setOnClickListener {
+            binding.imageButtonProxima.isClickable = false
+
             if (numeroDaRodadaAtual >= 1 && numeroDaRodadaAtual < 38) {
                 numeroDaRodadaAtual += 1
 
@@ -132,8 +135,8 @@ class MainActivity : AppCompatActivity() {
                 } catch (e:Exception) {
                     Log.i("teste_fut", "Navegando por rodadas")
                 }
-
             }
+
         }
 
     }
@@ -326,6 +329,7 @@ class MainActivity : AppCompatActivity() {
                                     .replace(R.id.fragmentConteudo, RodadasFragment(corpo))
                                     .commit()
 
+                                binding.imageButtonProxima.isClickable = true
                             }
 
                         }

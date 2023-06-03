@@ -33,17 +33,6 @@ class AdapterCard:Adapter<AdapterCard.MyViewHolder>() {
         val binding:CardViewRodadasBinding
         ) :ViewHolder(binding.root){
 
-       /* var dataRealizacao = binding.findViewById<TextView>(R.id.textDataHora)
-        var horaRealizacao = binding.findViewById<TextView>(R.id.textHora)
-        var timeCasa = binding.findViewById<TextView>(R.id.textTimeCasa)
-        var timeVisitante = binding.findViewById<TextView>(R.id.textTimeVisitante)
-        var placarCasa = binding.findViewById<TextView>(R.id.textPlacarCasa)
-        var placarVisitante = binding.findViewById<TextView>(R.id.textPlacarVisitante)
-        var statusJogo = binding.findViewById<Button>(R.id.btnStatusJogo)
-        var estadioJogo = binding.findViewById<TextView>(R.id.textEstadioJogo)
-        var imagemTimeCasa = binding.findViewById<ImageView>(R.id.imageTimeCasa)
-        var imagemTimeVisitante = binding.findViewById<ImageView>(R.id.imageTimeVisitante)*/
-
     }
 
     fun bind(holder: MyViewHolder) : CardViewRodadasBinding {
@@ -54,11 +43,6 @@ class AdapterCard:Adapter<AdapterCard.MyViewHolder>() {
 
         val layoutInflater = LayoutInflater.from(parent.context)
 
-        /*val view = layoutInflater.inflate(
-            R.layout.card_view_rodadas,
-            parent,
-            false
-        )*/
         val view = CardViewRodadasBinding.inflate(layoutInflater, parent, false)
 
         return MyViewHolder(view)
@@ -86,7 +70,10 @@ class AdapterCard:Adapter<AdapterCard.MyViewHolder>() {
             binding.btnStatusJogo.text = "X"
             binding.textTimeCasa.text = this.lista[position].time_mandante.nome_popular
             binding.textTimeVisitante.text = this.lista[position].time_visitante.nome_popular
-            binding.textEstadioJogo.text = this.lista[position].estadio.nome_popular
+
+            if (this.lista[position].estadio.nome_popular != null) {
+                binding.textEstadioJogo.text = this.lista[position].estadio.nome_popular
+            }
 
         } else {
 
@@ -97,7 +84,10 @@ class AdapterCard:Adapter<AdapterCard.MyViewHolder>() {
             binding.btnStatusJogo.text = this.lista[position].status
             binding.textTimeCasa.text = this.lista[position].time_mandante.nome_popular
             binding.textTimeVisitante.text = this.lista[position].time_visitante.nome_popular
-            binding.textEstadioJogo.text = this.lista[position].estadio.nome_popular
+
+            if (this.lista[position].estadio.nome_popular != null) {
+                binding.textEstadioJogo.text = this.lista[position].estadio.nome_popular
+            }
 
         }
 
